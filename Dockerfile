@@ -2,7 +2,7 @@ FROM python:3.9-slim
 
 # Install cron, python3-venv, and necessary utilities
 RUN apt-get update && \
-    apt-get install -y cron python3-venv && \
+    apt-get install -y cron python3-venv curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
