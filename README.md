@@ -1,5 +1,8 @@
-# port-sync
-Small python script to sync forwarded port from gluetun container with the qbittorrent `listen_port` and `embedded_tracker_port` 
+# qBittorrent forward-port-updater
+
+Fork off an existing project that includes some updates + a dockerfile to be deployed as a container.
+This is a small python script to update qbittorrent's port forwarding from glueetun, as gluetun doesn't keep the port static.
+You can also find the image on dockerhub at [uguler/qbittorrent-port-updater](uguler/qbittorrent-port-updater)
 
 ## Requirements
 You have to edit your Gluetun container configuration adding new volume:
