@@ -1,0 +1,31 @@
+# Add this service to the stack that defines your `gluetun` and `qbittorrent` services.
+services:
+  port-updater:
+    image: ghcr.io/umutguler/qbittorrent-listen-port-updater:latest
+    container_name: qbittorrent-port-updater
+    network_mode: service:gluetun
+    environment:
+      - QBIT_HOST=127.0.0.1
+      - QBIT_PORT=${QBIT_PORT:-9500}
+      - QBIT_USERNAME=${QBIT_USERNAME:?}
+      - QBIT_PASSWORD=${QBIT_PASSWORD:?}
+      - VPN_PORT_FILE=${QBIT_FORWARDED_PORT_FILE:-/mnt/gluetun/forwarded_port}
+      - INTERVAL_MINUTES=${PORTUPDATER_INTERVAL_MINUTES:-5}
+    volumes:
+      - ${GLUETUN_CONFIG_VOLUME}:/mnt/gluetun:ro
+    # Healthy while the last check succeeded (port file readable, qBittorrent reachable, login OK).
+    healthcheck:
+      test:
+        - CMD
+        - test
+        - -f
+        - /tmp/healthy
+      interval: ${HEALTHCHECK_INTERVAL:-1m}
+      timeout: ${HEALTHCHECK_TIMEOUT:-5s}
+      retries: ${HEALTHCHECK_RETRIES:-3}
+    restart: unless-stopped
+    depends_on:
+      gluetun:
+        condition: service_healthy
+      qbittorrent:
+        condition: service_healthy

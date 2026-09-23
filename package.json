@@ -1,0 +1,9 @@
+{
+  "name": "qbittorrent-listen-port-updater",
+  "private": true,
+  "scripts": {
+    "build": "docker build -t qbittorrent-listen-port-updater:local .",
+    "test": "docker run --rm -v ./:/src:ro -w /src --entrypoint python qbittorrent-listen-port-updater:local test_update_qbit_listen_port.py",
+    "start": "docker run --rm -it --env-file .env -v ./gluetun:/tmp/gluetun:ro qbittorrent-listen-port-updater:local"
+  }
+}

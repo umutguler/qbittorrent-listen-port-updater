@@ -171,3 +171,9 @@ pyrightconfig.json
 .history
 .ionide
 .claude/
+
+# Local agent notes, secrets and test data - never publish
+.agent/
+.env.*
+!.env.example
+gluetun/
